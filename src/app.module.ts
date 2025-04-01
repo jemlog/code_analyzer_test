@@ -1,10 +1,20 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { CatModule } from './cats/cat.module';
+import { ClientsModule } from '@nestjs/microservices';
+import { KAFKA_OPTION } from './constants';
 
 @Module({
-  imports: [],
+  imports: [
+    CatModule,
+    ClientsModule.register([
+      {
+        name: 'KAFKA_CLIENT',
+        ...KAFKA_OPTION
+      },
+    ]),
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}
