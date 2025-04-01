@@ -1,6 +1,7 @@
 import { Controller, Get, Inject, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ClientKafka, Ctx, KafkaContext, MessagePattern, Payload } from '@nestjs/microservices';
 import { TEST_TOPIC } from './constants';
+import { AvatarCreatedEvent } from './producer.req.dto';
 @Controller()
 export class AppController implements OnModuleInit, OnModuleDestroy {
   constructor(
@@ -17,15 +18,15 @@ export class AppController implements OnModuleInit, OnModuleDestroy {
   }
 
 
-  @Get('/test')
+  @Get('/avatar')
   test() {
-   const message = { value: 12345 };
+   const message = { value : { avatarId: 'sdf33-322f43-124gjt-qkdd3r', userId: 'hrdwvs-32ha43-1hhgjt-hrs22' } }
    this.kafkaClient.emit(TEST_TOPIC, message);
   }
 
   @MessagePattern(TEST_TOPIC)
-  readMessage(@Payload() message: any, @Ctx() context: KafkaContext) {
-      console.log('message:', message);
-      console.log('context:', context);
+  readMessage(@Payload() message: AvatarCreatedEvent) {
+      console.log('avatarId:', message.avatarId);
+      console.log('userId:', message.userId);
   }
 }
