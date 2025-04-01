@@ -17,7 +17,6 @@ export class AppController implements OnModuleInit, OnModuleDestroy {
     this.kafkaClient.close();
   }
 
-
   @Get('/avatar')
   test() {
    const message = { value : { avatarId: 'sdf33-322f43-124gjt-qkdd3r', userId: 'hrdwvs-32ha43-1hhgjt-hrs22' } }
